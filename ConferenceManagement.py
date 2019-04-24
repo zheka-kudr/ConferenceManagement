@@ -3,15 +3,16 @@ import sys
 
 class Conference:
     def __init__(self, name_conf, theme_conf, place_conf, leader_conf, date_conf):
-        self.name_conf = name_conf
-        self.theme_conf = theme_conf
-        self.place_conf = place_conf
-        self.leader_conf = leader_conf
+        self.name_conf = str(name_conf)
+        self.theme_conf = str(theme_conf)
+        self.place_conf = str(place_conf)
+        self.leader_conf = str(leader_conf)
         self.date_conf = date_conf
+        self.dict_conf = {str(name_conf): str(Member)}
 
     def __str__(self):
         return str(
-            self.name_conf + " " + self.theme_conf + " " + " " + self.place_conf + " " + self.leader_conf + " " + self.date_conf)
+            self.name_conf + " " + self.theme_conf + " " + " " + self.place_conf + " " + self.leader_conf + " " + self.date_conf)  # + " " +self.dict_conf)
 
 
 class Member:
@@ -29,12 +30,13 @@ def main():
     conference2 = Conference("b", "b", "b", "b", "b")
     conference3 = Conference("c", "c", "c", "c", "c")
     member = Member("iwan", "quahog", 22)
-    list_of_members = [member]
+    member2 = Member("alex", "pilk", 21)
+    list_of_members = [member, member2]
     list_of_conferences = [conference, conference2, conference3]
     done = False
     while not done:
         print(
-            """\nMenu\n1. Display all conferences\n2. Add conference\n3. Search conference\n4. Delete conference\n5. Show all members\n6. Add member\n7. Search members\n8. Delete member\n0. Exit""")
+            """\nMenu\n1. Display all conferences\n2. Add conference\n3. Search conference\n4. Delete conference\n5. Show all members\n6. Add member\n7. Search members\n8. Delete member\n9. Register on conference\n10. Kto przypisany do konferencji o indeksie \n0. Exit""")
         try:
             choice = int(input("Enter choice: "))
         except ValueError:
@@ -98,11 +100,21 @@ def main():
                 if int(index_search_member) < len(list_of_members):
                     index_search_conf = input("\nEnter index of conferences: ")
                     if int(index_search_conf) < len(list_of_conferences):
-                        print("Add member: \n" + str(
-                            list_of_members[int(index_search_member)]) + "\nTo conference: \n" + str(
+                        print("Add member: " + str(
+                            list_of_members[int(index_search_member)]) + "\nTo conference: " + str(
                             list_of_conferences[int(index_search_conf)]))
+                        list_of_conferences[int(index_search_conf)].dict_conf[
+                            list_of_conferences[int(index_search_conf)].name_conf] = str(
+                            list_of_members[int(index_search_member)])
+                        print(str(list_of_conferences[int(index_search_conf)].dict_conf))
                     else:
                         print("Index error")
+                else:
+                    print("Index error")
+            elif choice == 10:
+                search = input("\nEnter index of conference ")
+                if int(search) < len(list_of_conferences):
+                    print(str(list_of_conferences[int(search)].dict_conf))
                 else:
                     print("Index error")
             elif choice == 0:
